@@ -6,8 +6,8 @@ const crypto = require("crypto");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "CHANGE-THIS-PASSWORD";
-const DB_PATH = process.env.DB_PATH || path.join(__dirname, "bookings.sqlite");
+const ADMIN_PASSWORD = (process.env.ADMIN_PASSWORD || "").trim();
+const ADMIN_TOKEN = (process.env.ADMIN_TOKEN || "").trim();const DB_PATH = process.env.DB_PATH || path.join(__dirname, "bookings.sqlite");
 const db = new Database(DB_PATH);
 
 db.exec(`
