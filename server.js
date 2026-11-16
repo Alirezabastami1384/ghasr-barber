@@ -131,8 +131,7 @@ function adminAuth(req, res, next) {
   const token = req.headers["x-admin-token"];
   if (!token || token !== process.env.ADMIN_TOKEN) return res.status(401).json({error:"دسترسی مدیر تأیید نشد."});
   next();
-}
-app.post("/api/admin/login", (req, res) => {
+app.post("/api/admin/login", (req, res) => 
   const {password} = req.body || {};
   if (!process.env.ADMIN_TOKEN) return res.status(503).json({error:"توکن مدیر در تنظیمات سرور تعریف نشده است."});
   if (password !== ADMIN_PASSWORD) return res.status(401).json({error:"رمز عبور اشتباه است."});
