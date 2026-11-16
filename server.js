@@ -83,7 +83,31 @@ app.get("/api/availability", (req, res) => {
   res.json({slots});
 });
 
-app.post("/api/bookings", (req, res) => {
+app.post("/api/admin/login", (req, res) => {
+  const { password } = req.body || {};
+
+  if (!ADMIN_TOKEN) {
+    console.log("ADMIN_TOKEN is missing or empty");
+    return res.status(503).json({
+      error: "توکن مدیر در تنظیمات سرور تعریف نشده است."
+    });
+  }
+
+  if (!ADMIN_PASSWORD) {
+    console.log("ADMIN_PASSWORD is missing or empty");
+    return res.status(503).json({
+      error: "رمز مدیر در تنظیمات سرور تعریف نشده است."
+    });
+  }
+
+  if (password !== ADMIN_PASSWORD) {
+    return res.status(401).json({
+      error: "رمز عبور اشتباه است."
+    });
+  }
+
+  res.json({ ok: true, token: ADMIN_TOKEN });
+});
   const { name, phone, serviceId, date, time, note } = req.body || {};
   if (!name || !phone || !SERVICES[serviceId] || !validDate(date) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(time || "")) {
     return res.status(400).json({error:"لطفاً اطلاعات رزرو را کامل و درست وارد کنید."});
